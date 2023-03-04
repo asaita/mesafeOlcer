@@ -9,7 +9,7 @@
 <body>
 
     <!-- Google Maps JavaScript API anahtarınızı burada ekleyin -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCLfZOn6YbHsddmKW7UrsRlYv8QciBbQZE&callback=initMap&libraries=geometry" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=xxx&callback=initMap&libraries=geometry" async defer></script>
 
 
 <!-- Harita gösterimi için bir alan oluşturun -->
