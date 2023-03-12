@@ -1,55 +1,93 @@
-let map;
-let sabitAdres = "İstanbul, Türkiye"; // Sabit adres
-
 function initMap() {
-  // Harita oluştur
-  map = new google.maps.Map(document.getElementById("map"), {
-    center: { lat: 41.015137, lng: 28.979530 },
-    zoom: 8,
+  // Harita oluşturun
+  var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 18,
+      center: {lat: 38.99657673036982, lng: 29.388147810525282}
+      //center: {lat: 41.0082, lng: 28.9784}
   });
 
-  // Adres arama alanını oluştur
-  let input = document.getElementById("adres");
-  let autocomplete = new google.maps.places.Autocomplete(input);
+  var startLocation = new google.maps.LatLng(38.99657673036982, 29.388147810525282);
 
-  // Adres seçildiğinde koordinatları al
-  autocomplete.addListener("place_changed", function () {
-    let place = autocomplete.getPlace();
-    let lat = place.geometry.location.lat();
-    let lng = place.geometry.location.lng();
 
-    // Seçilen adresin koordinatları
-    console.log("Seçilen adresin koordinatları:");
-    console.log(lat, lng);
+  // Yer işaretleyiciyi (marker) oluşturun
+  var marker = new google.maps.Marker({
+      position: {lat: 38.99657673036982, lng: 29.388147810525282},
+      map: map,
+      draggable: true
+  });
 
-    // Sabit adresin koordinatları
-    let geocoder = new google.maps.Geocoder();
-    geocoder.geocode({ address: sabitAdres }, function (results, status) {
-      if (status == "OK") {
-        let sabitLat = results[0].geometry.location.lat();
-        let sabitLng = results[0].geometry.location.lng();
 
-        // Sabit adresin koordinatları
-        console.log("Sabit adresin koordinatları:");
-        console.log(sabitLat, sabitLng);
+  // Form alanlarını alın
+  var latInput = document.getElementById('lat');
+  var lngInput = document.getElementById('lng');
 
-        // Aralarındaki mesafeyi hesapla
-        let distance = google.maps.geometry.spherical.computeDistanceBetween(
-          new google.maps.LatLng(lat, lng),
-          new google.maps.LatLng(sabitLat, sabitLng)
-        );
+  marker.addListener('dragend', function() {
+      var lat = marker.getPosition().lat();
+      var lng = marker.getPosition().lng();
+  
+      latInput.value = lat;
+      lngInput.value = lng;
+  
+  
 
-        // Mesafeyi ekrana yazdır
-        let distanceText = "Aralarındaki mesafe: " + (distance / 1000).toFixed(2) + " km";
-        console.log(distanceText);
-        document.getElementById("mesafe").innerHTML = distanceText;
+    
 
-        // Koordinatları form elemanlarına ekle
-        document.getElementById("lat").value = lat;
-        document.getElementById("lng").value = lng;
+      
+  });
+
+  var cizimAktif = false;
+
+  var cizer = new google.maps.Polyline({
+    strokeColor: '#FF0000',
+    strokeOpacity: 1.0,
+    strokeWeight: 2,
+    editable: false,
+    map: map
+});
+var bolum=[];
+
+var bolumCiz = new google.maps.Polygon({
+  paths: bolum,
+  strokeColor: '#FF0000',
+  strokeOpacity: 0.8,
+  strokeWeight: 2,
+  fillColor: '#FF0000',
+  fillOpacity: 0.35
+});
+
+bolumCiz.setMap(map);
+
+
+  map.addListener('click', function(event) {
+      if (!cizimAktif) {
+          cizimAktif = true;
+          bolum = [];
+          bolum.push(event.latLng);
+          cizer.setPath(bolum);
+          bolumCiz.setMap(null);
       } else {
-        console.log("Sabit adres bulunamadı");
+          bolum.push(event.latLng);
+          cizer.setPath(bolum);
       }
-    });
+
+      var path = cizer.getPath();
+      bolumCiz.setPath(path);
+      bolumCiz.setMap(map);
+
+      var area = google.maps.geometry.spherical.computeArea(path);
+      var distanceElement = document.getElementById('alan');
+      distanceElement.innerHTML = area/1000 + ' km²';
+
+      var bounds = bolumCiz.getBounds();
+      var alanMerkezi = bounds.getCenter();
+
+
+      // geometry kütüphanesini yükleyin
+      var distance = google.maps.geometry.spherical.computeDistanceBetween(startLocation, alanMerkezi);
+
+      var distanceElement = document.getElementById('mesafe');
+      distanceElement.innerHTML = distance + ' km';
+
+      
   });
 }

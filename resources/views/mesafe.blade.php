@@ -4,6 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+   
+    <!-- Styles -->
+    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
@@ -11,17 +16,34 @@
     <!-- Google Maps JavaScript API anahtarınızı burada ekleyin -->
     <script src="https://maps.googleapis.com/maps/api/js?key=xxx&callback=initMap&libraries=geometry" async defer></script>
 
+   <div class="container">
 
-<!-- Harita gösterimi için bir alan oluşturun -->
-<div id="map" style="height: 400px;"></div>
+    <div class="row">
 
-<div>
-    Konum: <span id="konum"></span>
-</div>
+        <div class="col-sm-8">
 
-<div>
-    Mesafe: <span id="distance"></span>
-</div>
+            <div id="map" style="height: 600px;"></div>
+
+        </div>
+        <div class="col-sm-4">
+            <div>
+                Alan: <span id="alan"></span>
+            </div>
+            
+            <div>
+                Mesafe: <span id="mesafe"></span>
+            </div>
+            
+        </div>
+    </div>
+   </div>
+    
+   
+
+        
+
+
+
 
 <!-- Adres seçim formu -->
 <form action="{{ route('secili_adresR') }}" method="POST">
@@ -36,7 +58,7 @@
 </form>
 
 <!-- JavaScript dosyasını yükleyin -->
-<script src="{{ asset('js/harita.js') }}"></script>
+<script src="{{ asset('js/harita3.js') }}"></script>
     
 </body>
 </html>

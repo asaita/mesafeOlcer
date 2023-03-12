@@ -2,7 +2,8 @@ function initMap() {
     // Harita oluşturun
     var map = new google.maps.Map(document.getElementById('map'), {
         zoom: 18,
-        center: {lat: 38.99657673036982, lng: 29.388147810525282}
+        //center: {lat: 38.99657673036982, lng: 29.388147810525282}
+        center: {lat: 41.0082, lng: 28.9784}
     });
 
     var startLocation = new google.maps.LatLng(38.99657673036982, 29.388147810525282);
@@ -60,4 +61,24 @@ function initMap() {
         var distanceElement = document.getElementById('distance');
         distanceElement.innerHTML = distance/1000 + ' km';
     });
+
+    
+
+    var bolum = [
+        {lat: 41.0145, lng: 28.9799},
+        {lat: 41.0133, lng: 28.9743},
+        {lat: 41.0069, lng: 28.9728},
+        {lat: 41.0071, lng: 28.9803}
+      ];
+    
+      var bolumCiz = new google.maps.Polygon({
+        paths: bolum,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8,
+        strokeWeight: 2,
+        fillColor: '#FF0000',
+        fillOpacity: 0.35
+      });
+    
+      bolumCiz.setMap(map);
 }
