@@ -1,15 +1,18 @@
 function initMap() {
-    // Harita oluşturun
-    var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 18,
-      center: {lat: 38.99657673036982, lng: 29.388147810525282}
-    });
   
     var startLocation = new google.maps.LatLng(38.99657673036982, 29.388147810525282);
   
+  
+    // Harita oluşturun
+    var map = new google.maps.Map(document.getElementById('map'), {
+      zoom: 18,
+      center: startLocation
+    });
+  
+  
     // Yer işaretleyiciyi (marker) oluşturun
     var marker = new google.maps.Marker({
-      position: {lat: 38.99657673036982, lng: 29.388147810525282},
+      position: startLocation,
       map: map,
       draggable: true
     });
@@ -28,6 +31,7 @@ function initMap() {
   
     var cizimAktif = false;
   
+   //Çizgi Stili
     var cizer = new google.maps.Polyline({
       strokeColor: '#FF0000',
       strokeOpacity: 1.0,
@@ -38,6 +42,7 @@ function initMap() {
   
     var bolum = [];
   
+    //Çokgen Stili
     var bolumCiz = new google.maps.Polygon({
       paths: bolum,
       strokeColor: '#FF0000',
@@ -50,6 +55,7 @@ function initMap() {
     bolumCiz.setMap(map);
   
     map.addListener('click', function(event) {
+     
       if (!cizimAktif) {
         cizimAktif = true;
         bolum = [];
@@ -81,5 +87,6 @@ function initMap() {
       var mesafeElement = document.getElementById('mesafe');
       mesafeElement.innerHTML = (distance/1000).toFixed(2) + ' km';
     });
-  }
+
+}
   

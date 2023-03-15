@@ -48,6 +48,7 @@
                 <div class="p-12">
 
                     <a href="{{route('mesafeR')}}">Mesafe Belirle</a>
+                    <a href="{{route('iletisimR')}}">İletişim Sayfası</a>
 
                 </div>
 
